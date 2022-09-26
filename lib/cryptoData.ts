@@ -4,6 +4,11 @@ export const QuoterABI = [
   'function quoteExactInputSingle( address tokenIn, address tokenOut, uint24 fee, uint256 amountIn, uint160 sqrtPriceLimitX96) public returns (uint256 amountOut)',
 ];
 
+export interface immutableType {
+  token0: string;
+  token1: string;
+  fee: string;
+}
 // this data structure will hold all token address and corresponding pool address we need
 interface TokenDataType {
   name: string;

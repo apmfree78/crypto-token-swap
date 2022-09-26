@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
 import { ethers } from 'ethers';
-import { QuoterABI, TokenData } from '../lib/cryptoData';
+import { QuoterABI, USDC_Token, DAI_Token } from '../lib/cryptoData';
 import {
   usePrepareContractWrite,
   useContractWrite,
