@@ -6,25 +6,22 @@ export const QuoterABI = [
 
 // this data structure will hold all token address and corresponding pool address we need
 interface TokenDataType {
-  [token: string]: {
-    address: string;
-    dot3: { [token: string]: { contract: string } };
-    dot1: { [token: string]: { contract: string } };
-    one: { [token: string]: { contract: string } };
-  };
+  name: string;
+  symbol: string;
+  decimals: number;
+  address: string;
 }
 
-export const TokenData: TokenDataType = {
-  USDC: {
-    address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-    dot3: { DAI: { contract: '0' } },
-    dot1: { DAI: { contract: '0' } },
-    one: { DAI: { contract: '0' } },
-  },
-  DAI: {
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    dot3: { USDC: { contract: '0x6c6bc977e13df9b0de53b251522280bb72383700' } }, // 0.05%
-    dot1: { USDC: { contract: '0x5777d92f208679db4b9778590fa3cab3ac9e2168' } },
-    one: { USDC: { contract: '0' } },
-  },
+export const USDC_Token: TokenDataType = {
+  name: 'USDC Token',
+  symbol: 'USDC',
+  decimals: 18,
+  address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+};
+
+export const DAI_Token: TokenDataType = {
+  name: 'DAI Token',
+  symbol: 'DAI',
+  decimals: 18,
+  address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
 };
