@@ -1,6 +1,6 @@
 export const percent1 = 10000;
-export const percentPoint1 = 1000;
-export const percentPoint3 = 5000;
+export const percentPoint01 = 100;
+export const percentPoint3 = 3000;
 export const percentPoint05 = 500;
 
 export interface immutableType {

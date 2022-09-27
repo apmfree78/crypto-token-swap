@@ -5,7 +5,7 @@ import {
   USDC_Token,
   DAI_Token,
   percent1,
-  percentPoint1,
+  percentPoint01,
   percentPoint3,
   percentPoint05,
 } from '../lib/cryptoData';
@@ -20,6 +20,8 @@ interface TokenSwapProp {
 const SwapToken = () => {
   const [amountIn, setAmountIn] = useState<string>(''); // # of tokens to swap
   const [fee, setFee] = useState<number>(percentPoint05); // fee pool
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [trade, setTrade] = useState<TokenSwapProp>({
     TokenIn: { ...DAI_Token },
     TokenOut: { ...USDC_Token },
@@ -48,18 +50,23 @@ const SwapToken = () => {
   const handleSelection = (e: ChangeEvent<HTMLSelectElement>) =>
     setFee(parseInt(e.target.value));
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // set error and loading state
+    setLoading(true);
+    setError('');
+
+    console.log(amountIn);
     // validing input is a number
-    if (!isNaN(parseFloat(amountIn))) return; // add error message
+    if (isNaN(parseFloat(amountIn))) return; // add error message
 
     // estimate amount of tokens returned in swap, and debounce input
     const finalAmountIn = ethers.utils.parseUnits(amountIn, 6).toString();
     console.log(finalAmountIn);
 
     // call contract to find pool an execute token swap
-    swapRouter(
+    const transaction = await swapRouter(
       trade.TokenIn.address,
       trade.TokenOut.address,
       finalAmountIn,
@@ -67,7 +74,14 @@ const SwapToken = () => {
       provider,
       address || '',
       signer as Signer
-    );
+    ).catch((err) => {
+      setError(err.message);
+      setLoading(false);
+    });
+
+    // transaction complete
+    setLoading(false);
+    console.table(transaction);
   };
 
   return (
@@ -121,8 +135,8 @@ const SwapToken = () => {
               style={{ backgroundColor: 'transparent', border: 'none' }}
             >
               <option>Choose Fee Level</option>
+              <option value={percentPoint01}>0.01% Fee</option>
               <option value={percentPoint05}>0.05% Fee</option>
-              <option value={percentPoint1}>0.1% Fee</option>
               <option value={percentPoint3}>0.3% Fee</option>
               <option value={percent1}>1% Fee</option>
             </select>
@@ -134,6 +148,14 @@ const SwapToken = () => {
           </button>
         </div>
       </form>
+      {error && (
+        <div
+          className={`${styles.graybox} ${styles.center}`}
+          style={{ color: 'red' }}
+        >
+          {error}
+        </div>
+      )}
     </section>
   );
 };
