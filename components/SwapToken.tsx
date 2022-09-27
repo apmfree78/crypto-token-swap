@@ -75,7 +75,7 @@ const SwapToken = () => {
       address || '',
       signer as Signer
     ).catch((err) => {
-      setError(err.message);
+      setError(err.message.substring(0, 25));
       setLoading(false);
     });
 
@@ -143,7 +143,11 @@ const SwapToken = () => {
           </div>
         </div>
         <div className={styles.center}>
-          <button type='submit' className='button is-info is-large is-rounded'>
+          <button
+            disabled={loading}
+            type='submit'
+            className={`button is-info is-large is-rounded ${loading && 'is-loading'}`}
+          >
             Swap Tokens
           </button>
         </div>
@@ -151,7 +155,7 @@ const SwapToken = () => {
       {error && (
         <div
           className={`${styles.graybox} ${styles.center}`}
-          style={{ color: 'red' }}
+          style={{ color: 'red', marginTop: '1vh' }}
         >
           {error}
         </div>
