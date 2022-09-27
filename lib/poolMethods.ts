@@ -1,24 +1,23 @@
 import { abi as UniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json';
 import { abi as IUniswapV3PoolABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json';
 import { UniswapV3Factory } from './contractAddress';
-import { useProvider } from 'wagmi';
 import { ethers } from 'ethers';
 import { immutableType } from '../lib/cryptoData';
 
 export const getPoolImmutables = async (
   address1: string,
   address0: string,
-  feeLevel: number
+  feeLevel: number,
+  provider: any
 ) => {
-  const provider = useProvider();
-
   // access contract
   const UniswapV3FactoryContract = new ethers.Contract(
     UniswapV3Factory,
     UniswapV3FactoryABI,
     provider
   );
-
+  console.log(UniswapV3FactoryContract);
+  console.log(feeLevel);
   // find pool address
   const poolAddress = await UniswapV3FactoryContract.getPool(
     address1,

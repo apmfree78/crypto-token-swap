@@ -1,4 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import 'bulmaswatch/slate/bulmaswatch.min.css';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
@@ -15,9 +16,10 @@ const Home: NextPage = () => {
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-
-      <main className={styles.main}>
+      <header className={styles.header}>
         <ConnectButton />
+      </header>
+      <main className={styles.main}>
         <SwapToken />
       </main>
 

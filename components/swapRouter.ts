@@ -4,21 +4,25 @@ import { abi as SwapRouterABI } from '@uniswap/swap-router-contracts/artifacts/c
 // import { abi as UniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json';
 import { swapRouterAddress } from '../lib/contractAddress';
 import { getPoolImmutables } from '../lib/poolMethods';
-import { useSigner, useProvider, useAccount } from 'wagmi';
 
-const swapRouter = async (
+export const swapRouter = async (
   token1Address: string,
   token2Address: string,
-  amount: number, // in ethers format
-  fee: number
+  amount: string, // in ethers format
+  fee: number,
+  provider: any,
+  walletAddress: string,
+  signer: Signer
 ) => {
   // wagmi hooks for to access wallet address , signer, and provider
-  const provider = useProvider();
-  const { address } = useAccount();
-  const { data: signer } = useSigner();
   // get pool immutables - we'll need these to execute the swap
 
-  const immutables = await getPoolImmutables(token1Address, token2Address, fee);
+  const immutables = await getPoolImmutables(
+    token1Address,
+    token2Address,
+    fee,
+    provider
+  );
 
   const swapRouterContract = new ethers.Contract(
     swapRouterAddress,
@@ -32,7 +36,7 @@ const swapRouter = async (
     tokenIn: immutables.token0,
     tokenOut: immutables.token1,
     fee: immutables.fee,
-    recipient: address,
+    recipient: walletAddress,
     deadline: Math.floor(Date.now() / 1000) + 60 * 10,
     amountIn: amount,
     amountOutMinimum: 0,
@@ -47,5 +51,3 @@ const swapRouter = async (
 
   return transaction;
 };
-
-export default swapRouter;

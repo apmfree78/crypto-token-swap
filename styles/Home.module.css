@@ -2,6 +2,15 @@
   padding: 0 2rem;
 }
 
+.header {
+  display: flex;
+  flex-direction:column;
+  margin-top: 0.5vh;  
+  padding: 0.25vh 0;
+  justify-content: center;
+  align-items:flex-end;
+}
+
 .main {
   min-height: 100vh;
   padding: 4rem 0;

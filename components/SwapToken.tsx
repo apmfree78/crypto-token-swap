@@ -1,61 +1,49 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
-import { ethers } from 'ethers';
-import { QuoterABI, USDC_Token, DAI_Token } from '../lib/cryptoData';
-import {
-  usePrepareContractWrite,
-  useContractWrite,
-  useWaitForTransaction,
-} from 'wagmi';
+import { ethers, Signer } from 'ethers';
+import { USDC_Token, DAI_Token } from '../lib/cryptoData';
+import { swapRouter } from './swapRouter';
+import { useSigner, useProvider, useAccount } from 'wagmi';
 
 const SwapToken = () => {
   const [amountIn, setAmountIn] = useState('10');
-  let timeout: any; // debounce variable
+  const provider = useProvider();
+  const { address } = useAccount();
+  const { data: signer } = useSigner();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(timeout);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setAmountIn(e.target.value);
 
-    timeout = setTimeout(() => {
-      setAmountIn(e.target.value);
-    });
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // estimate amount of tokens returned in swap, and debounce input
+    const finalAmountIn = ethers.utils.parseUnits(amountIn, 6).toString();
+    console.log(finalAmountIn);
+
+    // call contract to find pool an execute token swap
+    swapRouter(
+      DAI_Token.address,
+      USDC_Token.address,
+      finalAmountIn,
+      3000,
+      provider,
+      address || '',
+      signer as Signer
+    );
   };
 
-  // estimate amount of tokens returned in swap, and debounce input
-  const finalamountIn = ethers.utils.parseUnits(amountIn, 6).toString();
-  console.log(finalamountIn);
-
-  const { config } = usePrepareContractWrite({
-    addressOrName: '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6',
-    contractInterface: QuoterABI,
-    functionName: 'quoteExactInputSingle',
-    args: [
-      TokenData.DAI.address,
-      TokenData.USDC.address,
-      3000,
-      finalamountIn,
-      1000000,
-    ],
-  });
-
-  const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash });
-
-  // execute contract
-  write?.();
-  console.log(data);
-
   return (
-    <form>
-      <label htmlFor='token0'>USDC</label>
-      <input
-        name='token0'
-        onChange={handleChange}
-        placeholder='0.0'
-      // value={amountIn}
-      />
-      <button type='submit' disabled={isLoading}>
-        Submit
-      </button>
-    </form>
+    <section>
+      <form role='form' onSubmit={handleSubmit}>
+        <label htmlFor='token0'>USDC</label>
+        <input
+          name='token0'
+          onChange={handleChange}
+          placeholder='0.0'
+        // value={amountIn}
+        />
+        <button type='submit'>Swap</button>
+      </form>
+    </section>
   );
 };
 
