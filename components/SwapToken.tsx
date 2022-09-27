@@ -12,15 +12,36 @@ import {
 import { swapRouter } from './swapRouter';
 import { useSigner, useProvider, useAccount } from 'wagmi';
 
-const SwapToken = () => {
-  const [amountIn, setAmountIn] = useState('');
-  const [fee, setFee] = useState<number>(percentPoint05);
+interface TokenSwapProp {
+  TokenIn: { symbol: string; address: string };
+  TokenOut: { symbol: string; address: string };
+}
 
+const SwapToken = () => {
+  const [amountIn, setAmountIn] = useState<string>(''); // # of tokens to swap
+  const [fee, setFee] = useState<number>(percentPoint05); // fee pool
+  const [trade, setTrade] = useState<TokenSwapProp>({
+    TokenIn: { ...DAI_Token },
+    TokenOut: { ...USDC_Token },
+  });
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();
   const { address } = useAccount();
   const { data: signer } = useSigner();
 
+  // swap in and out tokens when user clicks down arrow
+  const handleSwap = () => {
+    const tokenIn = { ...trade.TokenIn };
+    const tokenOut = { ...trade.TokenOut };
+
+    // swapping tokens
+    setTrade({
+      TokenIn: { ...tokenOut },
+      TokenOut: { ...tokenIn },
+    });
+  };
+
+  // form event handlers
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setAmountIn(e.target.value);
 
@@ -39,8 +60,8 @@ const SwapToken = () => {
 
     // call contract to find pool an execute token swap
     swapRouter(
-      DAI_Token.address,
-      USDC_Token.address,
+      trade.TokenIn.address,
+      trade.TokenOut.address,
       finalAmountIn,
       fee,
       provider,
@@ -66,11 +87,12 @@ const SwapToken = () => {
             />
           </div>
           <label htmlFor='token0' className='subtitle is-2'>
-            USDC
+            {trade.TokenIn.symbol}
           </label>
         </div>
         <div className={`field ${styles.center}`}>
           <i
+            onClick={handleSwap}
             className={`fa-solid fa-arrow-down fa-2xl ${styles.graybox}`}
             style={{ padding: '2vh 1vw' }}
           ></i>
@@ -87,7 +109,7 @@ const SwapToken = () => {
             />
           </div>
           <label htmlFor='token1' className='subtitle is-2'>
-            DAI
+            {trade.TokenOut.symbol}
           </label>
         </div>
 
