@@ -14,3 +14,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+input[type=text] {
+  background: transparent;
+  text-decoration:none; 
+  border:none;
+}
+
+select {
+  background: transparent;
+  text-decoration:none; 
+  border:0px;
+  outline:0px;
+}

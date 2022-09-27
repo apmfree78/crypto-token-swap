@@ -1,5 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import 'bulmaswatch/slate/bulmaswatch.min.css';
+import 'bulmaswatch/sandstone/bulmaswatch.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
