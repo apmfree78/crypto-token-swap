@@ -1,12 +1,22 @@
 import React, { ChangeEvent, useState, FormEvent } from 'react';
 import styles from '../styles/Form.module.css';
 import { ethers, Signer } from 'ethers';
-import { USDC_Token, DAI_Token } from '../lib/cryptoData';
+import {
+  USDC_Token,
+  DAI_Token,
+  percent1,
+  percentPoint1,
+  percentPoint3,
+  percentPoint05,
+} from '../lib/cryptoData';
 import { swapRouter } from './swapRouter';
 import { useSigner, useProvider, useAccount } from 'wagmi';
 
 const SwapToken = () => {
   const [amountIn, setAmountIn] = useState('');
+  const [fee, setFee] = useState<number>(percentPoint05);
+
+  // wagmi hooks to pass to SwapRouter
   const provider = useProvider();
   const { address } = useAccount();
   const { data: signer } = useSigner();
@@ -14,8 +24,15 @@ const SwapToken = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setAmountIn(e.target.value);
 
+  const handleSelection = (e: ChangeEvent<HTMLSelectElement>) =>
+    setFee(parseInt(e.target.value));
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    // validing input is a number
+    if (!isNaN(parseFloat(amountIn))) return; // add error message
+
     // estimate amount of tokens returned in swap, and debounce input
     const finalAmountIn = ethers.utils.parseUnits(amountIn, 6).toString();
     console.log(finalAmountIn);
@@ -25,7 +42,7 @@ const SwapToken = () => {
       DAI_Token.address,
       USDC_Token.address,
       finalAmountIn,
-      3000,
+      fee,
       provider,
       address || '',
       signer as Signer
@@ -77,14 +94,15 @@ const SwapToken = () => {
         <div className={`field ${styles.graybox} ${styles.center}`}>
           <div className='select is-large is-rounded'>
             <select
+              onChange={handleSelection}
               required
               style={{ backgroundColor: 'transparent', border: 'none' }}
             >
               <option>Choose Fee Level</option>
-              <option>0.05% Fee</option>
-              <option>0.1% Fee</option>
-              <option>0.3% Fee</option>
-              <option>1% Fee</option>
+              <option value={percentPoint05}>0.05% Fee</option>
+              <option value={percentPoint1}>0.1% Fee</option>
+              <option value={percentPoint3}>0.3% Fee</option>
+              <option value={percent1}>1% Fee</option>
             </select>
           </div>
         </div>

@@ -1,8 +1,7 @@
-// interface ABI for Quoter contract function we need
-export const QuoterABI = [
-  // 'function uniswapV3SwapCallback( int256 amount0Delta, int256 amount1Delta, bytes memory path) external view',
-  'function quoteExactInputSingle( address tokenIn, address tokenOut, uint24 fee, uint256 amountIn, uint160 sqrtPriceLimitX96) public returns (uint256 amountOut)',
-];
+export const percent1 = 10000;
+export const percentPoint1 = 1000;
+export const percentPoint3 = 5000;
+export const percentPoint05 = 500;
 
 export interface immutableType {
   token0: string;
