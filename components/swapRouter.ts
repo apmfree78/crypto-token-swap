@@ -2,7 +2,10 @@ import { ethers, Signer } from 'ethers';
 // import { abi as IUniswapV3PoolABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json';
 import { abi as SwapRouterABI } from '@uniswap/swap-router-contracts/artifacts/contracts/interfaces/ISwapRouter02.sol/ISwapRouter02.json';
 // import { abi as UniswapV3FactoryABI } from '@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json';
-import { swapRouterAddress } from '../lib/contractAddress';
+import {
+  swapRouterAddress,
+  swapRouterAddress_test,
+} from '../lib/contractAddress';
 import { getPoolImmutables } from '../lib/poolMethods';
 
 export const swapRouter = async (
@@ -25,7 +28,7 @@ export const swapRouter = async (
   );
 
   const swapRouterContract = new ethers.Contract(
-    swapRouterAddress,
+    swapRouterAddress_test,
     SwapRouterABI,
     provider
   );

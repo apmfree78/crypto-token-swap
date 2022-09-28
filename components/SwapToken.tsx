@@ -4,6 +4,8 @@ import { ethers, Signer } from 'ethers';
 import {
   USDC_Token,
   DAI_Token,
+  USDC_Token_test,
+  WETH_Token_test,
   percent1,
   percentPoint01,
   percentPoint3,
@@ -21,10 +23,11 @@ const SwapToken = () => {
   const [amountIn, setAmountIn] = useState<string>(''); // # of tokens to swap
   const [fee, setFee] = useState<number>(percentPoint05); // fee pool
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [trade, setTrade] = useState<TokenSwapProp>({
-    TokenIn: { ...DAI_Token },
-    TokenOut: { ...USDC_Token },
+    TokenIn: { ...USDC_Token_test },
+    TokenOut: { ...WETH_Token_test },
   });
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();
@@ -82,6 +85,14 @@ const SwapToken = () => {
     // transaction complete
     setLoading(false);
     console.table(transaction);
+    // output message based on transaction status
+    if (!transaction) setError('Transaction Failed');
+    else {
+      // success message
+      setSuccessMessage(
+        `<a href="https://goerli.etherscan.io/tx/${transaction.hash}">view transaction on Explorer</a>`
+      );
+    }
   };
 
   return (
@@ -146,7 +157,8 @@ const SwapToken = () => {
           <button
             disabled={loading}
             type='submit'
-            className={`button is-info is-large is-rounded ${loading && 'is-loading'}`}
+            className={`button is-info is-large is-rounded ${loading && 'is-loading'
+              }`}
           >
             Swap Tokens
           </button>
@@ -158,6 +170,15 @@ const SwapToken = () => {
           style={{ color: 'red', marginTop: '1vh' }}
         >
           {error}
+        </div>
+      )}
+      {successMessage && (
+        <div
+          className={`${styles.graybox} ${styles.center}`}
+          style={{ marginTop: '1vh' }}
+        >
+          <h3 className='title is-3'>Transaction Successfully Submitted</h3>
+          <p>{successMessage}</p>
         </div>
       )}
     </section>
