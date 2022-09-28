@@ -6,9 +6,9 @@
   display: flex;
   flex-direction:column;
   margin-top: 0.5vh;  
-  padding: 0.25vh 0;
+  padding: 0.25vh 10vw;
   justify-content: center;
-  align-items:flex-end;
+  align-items:center;
 }
 
 .main {
