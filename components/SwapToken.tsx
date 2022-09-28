@@ -23,11 +23,11 @@ const SwapToken = () => {
   const [amountIn, setAmountIn] = useState<string>(''); // # of tokens to swap
   const [fee, setFee] = useState<number>(percentPoint05); // fee pool
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [trade, setTrade] = useState<TokenSwapProp>({
-    TokenIn: { ...USDC_Token_test },
-    TokenOut: { ...WETH_Token_test },
+    TokenIn: { ...DAI_Token },
+    TokenOut: { ...USDC_Token },
   });
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();
@@ -89,9 +89,7 @@ const SwapToken = () => {
     if (!transaction) setError('Transaction Failed');
     else {
       // success message
-      setSuccessMessage(
-        `<a href="https://goerli.etherscan.io/tx/${transaction.hash}">view transaction on Explorer</a>`
-      );
+      setSuccess(true);
     }
   };
 
@@ -172,13 +170,12 @@ const SwapToken = () => {
           {error}
         </div>
       )}
-      {successMessage && (
-        <div
-          className={`${styles.graybox} ${styles.center}`}
-          style={{ marginTop: '1vh' }}
-        >
-          <h3 className='title is-3'>Transaction Successfully Submitted</h3>
-          <p>{successMessage}</p>
+      {success && (
+        <div className={`${styles.graybox} `} style={{ marginTop: '1vh' }}>
+          <h5 className='title is-5'>Transaction Successfully Submitted</h5>
+          <a href='https://goerli.etherscan.io/tx/${transaction.hash}'>
+            <u>View transaction on Explorer</u>
+          </a>
         </div>
       )}
     </section>

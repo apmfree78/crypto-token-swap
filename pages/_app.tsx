@@ -20,9 +20,9 @@ const { chains, provider, webSocketProvider } = configureChains(
     alchemyProvider({
       // This is Alchemy's default API key.
       //MAINNET
-      // apiKey: 'ea5WW5H1wx60RuKPYgGkWoLpyDrk7e90',
+      apiKey: 'ea5WW5H1wx60RuKPYgGkWoLpyDrk7e90',
       // Goerli
-      apiKey: 'ciC-5jeFTHSXc-4DtkTQypkvQhVKxhNu',
+      // apiKey: 'ciC-5jeFTHSXc-4DtkTQypkvQhVKxhNu',
     }),
     publicProvider(),
   ]
