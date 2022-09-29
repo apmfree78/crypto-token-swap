@@ -1,26 +1,40 @@
-import React, { ChangeEvent, useState, FormEvent } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  ChangeEvent,
+  useState,
+  FormEvent,
+} from 'react';
 import { ethers } from 'ethers';
-import { QuoterABI, TokenData } from '../lib/cryptoData';
+import {
+  QuoterABI,
+  DAI_Token,
+  USDC_Token,
+  USDC_Token_test,
+  DAI_Token_test,
+} from '../lib/cryptoData';
 import {
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
 } from 'wagmi';
 
-const SwapToken = () => {
+const QuotePrice = () => {
   const [amountIn, setAmountIn] = useState('10');
   let timeout: any; // debounce variable
+  let finalamountIn = useRef('0');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     clearTimeout(timeout);
-
     timeout = setTimeout(() => {
       setAmountIn(e.target.value);
-    });
+    }, 500);
   };
 
   // estimate amount of tokens returned in swap, and debounce input
-  const finalamountIn = ethers.utils.parseUnits(amountIn, 6).toString();
+  finalamountIn.current = ethers.utils
+    .parseUnits(amountIn, DAI_Token.decimals)
+    .toString();
   console.log(finalamountIn);
 
   const { config } = usePrepareContractWrite({
@@ -28,23 +42,25 @@ const SwapToken = () => {
     contractInterface: QuoterABI,
     functionName: 'quoteExactInputSingle',
     args: [
-      TokenData.DAI.address,
-      TokenData.USDC.address,
+      DAI_Token_test.address,
+      USDC_Token_test.address,
       3000,
-      finalamountIn,
-      1000000,
+      finalamountIn.current,
+      0,
     ],
   });
 
   const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({ hash: data?.hash });
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   // execute contract
-  write?.();
+  // write?.();
   console.log(data);
 
   return (
-    <form>
+    <>
       <label htmlFor='token0'>USDC</label>
       <input
         name='token0'
@@ -52,11 +68,9 @@ const SwapToken = () => {
         placeholder='0.0'
       // value={amountIn}
       />
-      <button type='submit' disabled={isLoading}>
-        Submit
-      </button>
-    </form>
+      <button onClick={() => write?.()}>Get Quote</button>
+    </>
   );
 };
 
-export default SwapToken;
+export default QuotePrice;

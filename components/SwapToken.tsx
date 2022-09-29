@@ -1,4 +1,11 @@
-import React, { ChangeEvent, useState, FormEvent } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  ChangeEvent,
+  useState,
+  FormEvent,
+} from 'react';
+import { swapExchangeRate } from './quoteSwapAmount';
 import styles from '../styles/Form.module.css';
 import { ethers, Signer } from 'ethers';
 import {
@@ -29,10 +36,21 @@ const SwapToken = () => {
     TokenIn: { ...DAI_Token },
     TokenOut: { ...USDC_Token },
   });
+  const exchangeRate = useRef(1);
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();
   const { address } = useAccount();
   const { data: signer } = useSigner();
+
+  // determine coin exchange rate
+  useEffect(() => {
+    (async () => {
+      exchangeRate.current = await swapExchangeRate(
+        trade.TokenIn.address,
+        trade.TokenOut.address
+      );
+    })();
+  }, [trade]);
 
   // swap in and out tokens when user clicks down arrow
   const handleSwap = () => {
@@ -120,22 +138,17 @@ const SwapToken = () => {
             style={{ padding: '2vh 1vw' }}
           ></i>
         </div>
-        <div className={`field is-grouped ${styles.graybox}`}>
-          <div className='control'>
-            <input
-              className='input is-large'
-              type='text'
-              name='token1'
-              onChange={handleChange}
-              placeholder='0.0'
-              value={amountIn}
-            />
-          </div>
-          <label htmlFor='token1' className='subtitle is-2'>
-            {trade.TokenOut.symbol}
-          </label>
+        <div className={`field ${styles.graybox} ${styles.output}`}>
+          <span
+            className='subtitle is-4'
+            style={{ paddingTop: '1.5vh', paddingLeft: '2vw', color: 'gray' }}
+          >
+            {amountIn
+              ? (parseFloat(amountIn) * exchangeRate.current).toFixed(4)
+              : '0.0'}
+          </span>
+          <span className='subtitle is-2'>{trade.TokenOut.symbol}</span>
         </div>
-
         <div className={`field ${styles.graybox} ${styles.center}`}>
           <div className='select is-large is-rounded'>
             <select

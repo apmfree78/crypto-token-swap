@@ -13,6 +13,7 @@
     "@rainbow-me/rainbowkit": "^0.6.1",
     "@uniswap/swap-router-contracts": "^1.3.0",
     "@uniswap/v3-core": "^1.0.1",
+    "axios": "^0.27.2",
     "bulmaswatch": "^0.8.1",
     "ethers": "^5.0.0",
     "next": "^12.1.6",

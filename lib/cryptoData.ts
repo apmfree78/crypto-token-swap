@@ -20,6 +20,10 @@ interface TokenArrayType {
   [key: string]: TokenDataType;
 }
 
+export const QuoterABI = [
+  'function quoteExactInputSingle( address tokenIn, address tokenOut, uint24 fee, uint256 amountIn, uint160 sqrtPriceLimitX96) public returns (uint256 amountOut)',
+];
+
 export const TokenList: TokenArrayType = {
   USDC: {
     name: 'USDC Token',
