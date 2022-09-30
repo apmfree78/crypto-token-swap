@@ -1,6 +1,6 @@
 import React, {
   useEffect,
-  useRef,
+  useContext,
   ChangeEvent,
   useState,
   FormEvent,
@@ -9,21 +9,15 @@ import { swapExchangeRate } from './quoteSwapAmount';
 import InputToken from './InputToken';
 import OutputToken from './OutputToken';
 import FeeSelectDropDown from './FeeSelectDropDown';
+import { GlobalContext } from '../context/GlobalContext';
 import styles from '../styles/Form.module.css';
 import { ethers, Signer } from 'ethers';
 import {
-  USDC_Token,
-  DAI_Token,
   TokenList,
   percentPoint05,
 } from '../lib/cryptoData';
 import { swapRouter } from './swapRouter';
 import { useSigner, useProvider, useAccount } from 'wagmi';
-
-interface TokenSwapProp {
-  TokenIn: { symbol: string; address: string };
-  TokenOut: { symbol: string; address: string };
-}
 
 const SwapToken = () => {
   const [amountIn, setAmountIn] = useState<string>(''); // # of tokens to swap
@@ -31,10 +25,11 @@ const SwapToken = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [trade, setTrade] = useState<TokenSwapProp>({
-    TokenIn: { ...DAI_Token },
-    TokenOut: { ...USDC_Token },
-  });
+  const { trade, setTrade } = useContext(GlobalContext);
+  // const [trade, setTrade] = useState<TokenSwapProp>({
+  //   TokenIn: { ...DAI_Token },
+  //   TokenOut: { ...USDC_Token },
+  // });
   const [exchangeRate, setExchangeRate] = useState(1);
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();

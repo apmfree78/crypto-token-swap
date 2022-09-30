@@ -5,7 +5,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-interface TokenSwapProp {
+export interface TokenSwapProp {
   TokenIn: { symbol: string; address: string };
   TokenOut: { symbol: string; address: string };
 }
