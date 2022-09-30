@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import styles from '../styles/Form.module.css';
-import { TokenList } from '../lib/cryptoData';
+import TokenSelectDropdown from './TokenSelectDropDown';
 
 interface OutputTokenProps {
   handleTokenSelection: (
@@ -24,7 +24,11 @@ const OutputToken: React.FC<OutputTokenProps> = ({
       >
         {amountIn ? (parseFloat(amountIn) * exchangeRate).toFixed(4) : '0.0'}
       </span>
-      <span className='subtitle is-2'>{trade.TokenOut.symbol}</span>
+      <span className='subtitle is-2'>
+        <TokenSelectDropdown handleSelection={(e) => handleTokenSelection('output', e)} />
+      </span>
     </div>
   );
 };
+
+export default OutputToken;

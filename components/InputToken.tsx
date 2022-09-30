@@ -34,19 +34,6 @@ const InputToken: React.FC<InputTokenProps> = ({
       <TokenSelectDropDown
         handleSelection={(e) => handleTokenSelection('input', e)}
       />
-      {/* <div className={`field ${styles.graybox} ${styles.center}`}> */}
-      {/*   <div className='select is-large is-rounded'> */}
-      {/*     <select */}
-      {/*       onChange={(e) => handleTokenSelection('input', e)} */}
-      {/*       required */}
-      {/*       style={{ backgroundColor: 'transparent', border: 'none' }} */}
-      {/*     > */}
-      {/*       {Object.keys(TokenList).map((symbol) => { */}
-      {/*         return <option>{symbol}</option>; */}
-      {/*       })} */}
-      {/*     </select> */}
-      {/*   </div> */}
-      {/* </div> */}
     </div>
   );
 };
