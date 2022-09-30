@@ -67,7 +67,6 @@ export const TokenList: TokenArrayType = {
     decimals: 18,
     address: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
   },
-
   NEXO: {
     name: 'NEXO Token',
     symbol: 'NEXO',
@@ -123,6 +122,7 @@ export const TokenList: TokenArrayType = {
     address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
   },
 };
+
 
 export const USDC_Token: TokenDataType = {
   name: 'USDC Token',

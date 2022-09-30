@@ -13,6 +13,7 @@ import {
   DAI_Token,
   USDC_Token_test,
   WETH_Token_test,
+  TokenList,
   percent1,
   percentPoint01,
   percentPoint3,
@@ -114,6 +115,7 @@ const SwapToken = () => {
   return (
     <section className={styles.form}>
       <form role='form' onSubmit={handleSubmit}>
+        {/* user chooses the input token and amount to swap  */}
         <div className={`field is-grouped ${styles.graybox}`}>
           <div className='control'>
             <input
@@ -131,6 +133,7 @@ const SwapToken = () => {
             {trade.TokenIn.symbol}
           </label>
         </div>
+        {/* down arrow - when clicked swaps input and output token  */}
         <div className={`field ${styles.center}`}>
           <i
             onClick={handleSwap}
@@ -138,6 +141,7 @@ const SwapToken = () => {
             style={{ padding: '2vh 1vw' }}
           ></i>
         </div>
+        {/* output token displayed with estimated amount of token recieved */}
         <div className={`field ${styles.graybox} ${styles.output}`}>
           <span
             className='subtitle is-4'
