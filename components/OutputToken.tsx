@@ -20,12 +20,14 @@ const OutputToken: React.FC<OutputTokenProps> = ({
     <div className={`field ${styles.graybox} ${styles.output}`}>
       <span
         className='subtitle is-4'
-        style={{ paddingTop: '1.5vh', paddingLeft: '2vw', color: 'gray' }}
+        style={{ paddingTop: '1.75vh', paddingLeft: '3vw', color: 'gray' }}
       >
         {amountIn ? (parseFloat(amountIn) * exchangeRate).toFixed(4) : '0.0'}
       </span>
       <span className='subtitle is-2'>
-        <TokenSelectDropdown handleSelection={(e) => handleTokenSelection('output', e)} />
+        <TokenSelectDropdown
+          handleSelection={(e) => handleTokenSelection('output', e)}
+        />
       </span>
     </div>
   );

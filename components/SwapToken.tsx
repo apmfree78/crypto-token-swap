@@ -7,17 +7,14 @@ import React, {
 } from 'react';
 import { swapExchangeRate } from './quoteSwapAmount';
 import InputToken from './InputToken';
+import OutputToken from './OutputToken';
+import FeeSelectDropDown from './FeeSelectDropDown';
 import styles from '../styles/Form.module.css';
 import { ethers, Signer } from 'ethers';
 import {
   USDC_Token,
   DAI_Token,
-  USDC_Token_test,
-  WETH_Token_test,
   TokenList,
-  percent1,
-  percentPoint01,
-  percentPoint3,
   percentPoint05,
 } from '../lib/cryptoData';
 import { swapRouter } from './swapRouter';
@@ -53,6 +50,7 @@ const SwapToken = () => {
       );
       // update state
       setExchangeRate(updatedExchangeRate);
+      setError('');
     })();
   }, [trade.TokenIn.symbol, trade.TokenOut.symbol]);
 
@@ -72,7 +70,7 @@ const SwapToken = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setAmountIn(e.target.value);
 
-  const handleSelection = (e: ChangeEvent<HTMLSelectElement>) =>
+  const handleFeeSelection = (e: ChangeEvent<HTMLSelectElement>) =>
     setFee(parseInt(e.target.value));
 
   const handleTokenSelection = (
@@ -159,33 +157,15 @@ const SwapToken = () => {
           ></i>
         </div>
         {/* output token displayed with estimated amount of token recieved */}
-        <div className={`field ${styles.graybox} ${styles.output}`}>
-          <span
-            className='subtitle is-4'
-            style={{ paddingTop: '1.5vh', paddingLeft: '2vw', color: 'gray' }}
-          >
-            {amountIn
-              ? (parseFloat(amountIn) * exchangeRate).toFixed(4)
-              : '0.0'}
-          </span>
-          <span className='subtitle is-2'>{trade.TokenOut.symbol}</span>
-        </div>
-        <div className={`field ${styles.graybox} ${styles.center}`}>
-          <div className='select is-large is-rounded'>
-            <select
-              onChange={handleSelection}
-              required
-              style={{ backgroundColor: 'transparent', border: 'none' }}
-            >
-              <option>Choose Fee Level</option>
-              <option value={percentPoint01}>0.01% Fee</option>
-              <option value={percentPoint05}>0.05% Fee</option>
-              <option value={percentPoint3}>0.3% Fee</option>
-              <option value={percent1}>1% Fee</option>
-            </select>
-          </div>
-        </div>
+        <OutputToken
+          handleTokenSelection={handleTokenSelection}
+          amountIn={amountIn}
+          exchangeRate={exchangeRate}
+        />
+        {/* select fee pool for token swap */}
+        <FeeSelectDropDown handleSelection={handleFeeSelection} />
         <div className={styles.center}>
+          {/* SWAP BUTTON  */}
           <button
             disabled={loading}
             type='submit'
@@ -196,6 +176,7 @@ const SwapToken = () => {
           </button>
         </div>
       </form>
+      {/* output error message of transaction is unsuccessfull */}
       {error && (
         <div
           className={`${styles.graybox} ${styles.center}`}
@@ -204,6 +185,7 @@ const SwapToken = () => {
           {error}
         </div>
       )}
+      {/* output success message if transaction has been successfully submitted  */}
       {success && (
         <div className={`${styles.graybox} `} style={{ marginTop: '1vh' }}>
           <h5 className='title is-5'>Transaction Successfully Submitted</h5>

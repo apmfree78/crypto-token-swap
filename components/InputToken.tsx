@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react';
 import styles from '../styles/Form.module.css';
-import { TokenList } from '../lib/cryptoData';
 import TokenSelectDropDown from './TokenSelectDropDown';
 
 interface InputTokenProps {
@@ -19,7 +18,10 @@ const InputToken: React.FC<InputTokenProps> = ({
 }) => {
   return (
     <div className={`field is-grouped ${styles.graybox}`}>
-      <div className='control'>
+      <div
+        className='control'
+        style={{ paddingTop: '1.25vh', paddingLeft: '1vw', color: 'gray' }}
+      >
         <input
           required
           className='input is-large'

@@ -17,7 +17,7 @@ const TokenSelectDropdown: React.FC<TokenSelectDropdownProps> = ({
           style={{ backgroundColor: 'transparent', border: 'none' }}
         >
           {Object.keys(TokenList).map((symbol) => {
-            return <option key={symbol}>{symbol}</option>;
+            return <option key={symbol} value={symbol}>{symbol}</option>;
           })}
         </select>
       </div>

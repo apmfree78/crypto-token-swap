@@ -1,15 +1,12 @@
 import React, {
   useRef,
-  useEffect,
   ChangeEvent,
   useState,
-  FormEvent,
 } from 'react';
 import { ethers } from 'ethers';
 import {
   QuoterABI,
   DAI_Token,
-  USDC_Token,
   USDC_Token_test,
   DAI_Token_test,
 } from '../lib/cryptoData';
