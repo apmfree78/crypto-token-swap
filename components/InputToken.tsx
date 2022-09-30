@@ -4,13 +4,13 @@ import { TokenList } from '../lib/cryptoData';
 
 interface InputTokenProps {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleInputSelection: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleTokenSelection: (type: 'input' | 'output', e: ChangeEvent<HTMLSelectElement>) => void;
   amountIn: string;
 }
 
 const InputToken: React.FC<InputTokenProps> = ({
   handleChange,
-  handleInputSelection,
+  handleTokenSelection,
   amountIn,
 }) => {
   return (
@@ -30,12 +30,12 @@ const InputToken: React.FC<InputTokenProps> = ({
       <div className={`field ${styles.graybox} ${styles.center}`}>
         <div className='select is-large is-rounded'>
           <select
-            onChange={handleInputSelection}
+            onChange={(e) => handleTokenSelection('input', e)}
             required
             style={{ backgroundColor: 'transparent', border: 'none' }}
           >
-            {Object.keys(TokenList).map(symbol => {
-              return <option>{symbol}</option>
+            {Object.keys(TokenList).map((symbol) => {
+              return <option>{symbol}</option>;
             })}
           </select>
         </div>

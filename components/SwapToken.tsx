@@ -72,6 +72,32 @@ const SwapToken = () => {
   const handleSelection = (e: ChangeEvent<HTMLSelectElement>) =>
     setFee(parseInt(e.target.value));
 
+  const handleTokenSelection = (
+    type: 'input' | 'output',
+    e: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newSelectedToken = e.target.value;
+
+    // check input type
+    if (type === 'input') {
+      setTrade({
+        ...trade,
+        TokenIn: {
+          symbol: newSelectedToken,
+          address: TokenList[newSelectedToken].address,
+        },
+      });
+    } else {
+      setTrade({
+        ...trade,
+        TokenOut: {
+          symbol: newSelectedToken,
+          address: TokenList[newSelectedToken].address,
+        },
+      });
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
