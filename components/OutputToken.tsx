@@ -26,6 +26,7 @@ const OutputToken: React.FC<OutputTokenProps> = ({
       </span>
       <span className='subtitle is-2'>
         <TokenSelectDropdown
+          type='output'
           handleSelection={(e) => handleTokenSelection('output', e)}
         />
       </span>

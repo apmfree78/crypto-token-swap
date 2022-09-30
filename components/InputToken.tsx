@@ -34,6 +34,7 @@ const InputToken: React.FC<InputTokenProps> = ({
         />
       </div>
       <TokenSelectDropDown
+        type='input'
         handleSelection={(e) => handleTokenSelection('input', e)}
       />
     </div>

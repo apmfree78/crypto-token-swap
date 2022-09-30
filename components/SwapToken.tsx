@@ -12,10 +12,7 @@ import FeeSelectDropDown from './FeeSelectDropDown';
 import { GlobalContext } from '../context/GlobalContext';
 import styles from '../styles/Form.module.css';
 import { ethers, Signer } from 'ethers';
-import {
-  TokenList,
-  percentPoint05,
-} from '../lib/cryptoData';
+import { TokenList, percentPoint05 } from '../lib/cryptoData';
 import { swapRouter } from './swapRouter';
 import { useSigner, useProvider, useAccount } from 'wagmi';
 
@@ -26,10 +23,6 @@ const SwapToken = () => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const { trade, setTrade } = useContext(GlobalContext);
-  // const [trade, setTrade] = useState<TokenSwapProp>({
-  //   TokenIn: { ...DAI_Token },
-  //   TokenOut: { ...USDC_Token },
-  // });
   const [exchangeRate, setExchangeRate] = useState(1);
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();

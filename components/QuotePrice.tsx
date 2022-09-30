@@ -6,11 +6,7 @@ import {
   USDC_Token_test,
   DAI_Token_test,
 } from '../lib/cryptoData';
-import {
-  usePrepareContractWrite,
-  useContractWrite,
-  useWaitForTransaction,
-} from 'wagmi';
+import { usePrepareContractWrite, useContractWrite } from 'wagmi';
 
 const QuotePrice = () => {
   const [amountIn, setAmountIn] = useState('10');
@@ -44,9 +40,9 @@ const QuotePrice = () => {
   });
 
   const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: data?.hash,
-  });
+  // const { isLoading, isSuccess } = useWaitForTransaction({
+  //   hash: data?.hash,
+  // });
 
   // execute contract
   // write?.();
