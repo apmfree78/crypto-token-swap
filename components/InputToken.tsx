@@ -4,7 +4,10 @@ import { TokenList } from '../lib/cryptoData';
 
 interface InputTokenProps {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleTokenSelection: (type: 'input' | 'output', e: ChangeEvent<HTMLSelectElement>) => void;
+  handleTokenSelection: (
+    type: 'input' | 'output',
+    e: ChangeEvent<HTMLSelectElement>
+  ) => void;
   amountIn: string;
 }
 
@@ -43,3 +46,5 @@ const InputToken: React.FC<InputTokenProps> = ({
     </div>
   );
 };
+
+export default InputToken;

@@ -6,6 +6,7 @@ import React, {
   FormEvent,
 } from 'react';
 import { swapExchangeRate } from './quoteSwapAmount';
+import InputToken from './InputToken';
 import styles from '../styles/Form.module.css';
 import { ethers, Signer } from 'ethers';
 import {
@@ -51,7 +52,7 @@ const SwapToken = () => {
         trade.TokenOut.address
       );
     })();
-  }, [trade]);
+  }, [trade.TokenIn.symbol, trade.TokenOut.symbol]);
 
   // swap in and out tokens when user clicks down arrow
   const handleSwap = () => {
@@ -142,23 +143,28 @@ const SwapToken = () => {
     <section className={styles.form}>
       <form role='form' onSubmit={handleSubmit}>
         {/* user chooses the input token and amount to swap  */}
-        <div className={`field is-grouped ${styles.graybox}`}>
-          <div className='control'>
-            <input
-              required
-              className='input is-large'
-              type='text'
-              name='token0'
-              onChange={handleChange}
-              placeholder='0.0'
-              value={amountIn}
-              autoFocus
-            />
-          </div>
-          <label htmlFor='token0' className='subtitle is-2'>
-            {trade.TokenIn.symbol}
-          </label>
-        </div>
+        <InputToken
+          handleChange={handleChange}
+          handleTokenSelection={handleTokenSelection}
+          amountIn={amountIn}
+        />
+        {/* <div className={`field is-grouped ${styles.graybox}`}> */}
+        {/*   <div className='control'> */}
+        {/*     <input */}
+        {/*       required */}
+        {/*       className='input is-large' */}
+        {/*       type='text' */}
+        {/*       name='token0' */}
+        {/*       onChange={handleChange} */}
+        {/*       placeholder='0.0' */}
+        {/*       value={amountIn} */}
+        {/*       autoFocus */}
+        {/*     /> */}
+        {/*   </div> */}
+        {/*   <label htmlFor='token0' className='subtitle is-2'> */}
+        {/*     {trade.TokenIn.symbol} */}
+        {/*   </label> */}
+        {/* </div> */}
         {/* down arrow - when clicked swaps input and output token  */}
         <div className={`field ${styles.center}`}>
           <i
