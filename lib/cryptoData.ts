@@ -123,7 +123,6 @@ export const TokenList: TokenArrayType = {
   },
 };
 
-
 export const USDC_Token: TokenDataType = {
   name: 'USDC Token',
   symbol: 'USDC',

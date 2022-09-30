@@ -38,7 +38,7 @@ const SwapToken = () => {
     TokenIn: { ...DAI_Token },
     TokenOut: { ...USDC_Token },
   });
-  const exchangeRate = useRef(1);
+  const [exchangeRate, setExchangeRate] = useState(1);
   // wagmi hooks to pass to SwapRouter
   const provider = useProvider();
   const { address } = useAccount();
@@ -47,10 +47,12 @@ const SwapToken = () => {
   // determine coin exchange rate
   useEffect(() => {
     (async () => {
-      exchangeRate.current = await swapExchangeRate(
+      const updatedExchangeRate = await swapExchangeRate(
         trade.TokenIn.address,
         trade.TokenOut.address
       );
+      // update state
+      setExchangeRate(updatedExchangeRate);
     })();
   }, [trade.TokenIn.symbol, trade.TokenOut.symbol]);
 
@@ -148,23 +150,6 @@ const SwapToken = () => {
           handleTokenSelection={handleTokenSelection}
           amountIn={amountIn}
         />
-        {/* <div className={`field is-grouped ${styles.graybox}`}> */}
-        {/*   <div className='control'> */}
-        {/*     <input */}
-        {/*       required */}
-        {/*       className='input is-large' */}
-        {/*       type='text' */}
-        {/*       name='token0' */}
-        {/*       onChange={handleChange} */}
-        {/*       placeholder='0.0' */}
-        {/*       value={amountIn} */}
-        {/*       autoFocus */}
-        {/*     /> */}
-        {/*   </div> */}
-        {/*   <label htmlFor='token0' className='subtitle is-2'> */}
-        {/*     {trade.TokenIn.symbol} */}
-        {/*   </label> */}
-        {/* </div> */}
         {/* down arrow - when clicked swaps input and output token  */}
         <div className={`field ${styles.center}`}>
           <i
@@ -180,7 +165,7 @@ const SwapToken = () => {
             style={{ paddingTop: '1.5vh', paddingLeft: '2vw', color: 'gray' }}
           >
             {amountIn
-              ? (parseFloat(amountIn) * exchangeRate.current).toFixed(4)
+              ? (parseFloat(amountIn) * exchangeRate).toFixed(4)
               : '0.0'}
           </span>
           <span className='subtitle is-2'>{trade.TokenOut.symbol}</span>
