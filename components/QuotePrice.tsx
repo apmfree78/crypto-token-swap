@@ -1,8 +1,4 @@
-import React, {
-  useRef,
-  ChangeEvent,
-  useState,
-} from 'react';
+import React, { useRef, ChangeEvent, useState } from 'react';
 import { ethers } from 'ethers';
 import {
   QuoterABI,

@@ -20,6 +20,7 @@ input[type=text] {
   background: transparent;
   text-decoration:none; 
   border:none;
+  width:20vw;
 }
 
 select {
