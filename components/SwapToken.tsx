@@ -157,8 +157,9 @@ const SwapToken = () => {
           <button
             disabled={loading}
             type='submit'
-            className={`button is-info is-large is-rounded ${loading && 'is-loading'
-              }`}
+            className={`button is-info is-large is-rounded ${
+              loading && 'is-loading'
+            }`}
           >
             Swap Tokens
           </button>
@@ -177,7 +178,7 @@ const SwapToken = () => {
       {success && (
         <div className={`${styles.graybox} `} style={{ marginTop: '1vh' }}>
           <h5 className='title is-5'>Transaction Successfully Submitted</h5>
-          <a href='https://goerli.etherscan.io/tx/${transaction.hash}'>
+          <a href='https://etherscan.io/tx/${transaction.hash}'>
             <u>View transaction on Explorer</u>
           </a>
         </div>
